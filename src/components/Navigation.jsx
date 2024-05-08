@@ -1,13 +1,17 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useEffect, useRef } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { resetToggleHandler, toggleHandler } from "../store/product-slice";
 
 const Navigation = () => {
-  const [isOpen, setIsOpen] = useState(false);
   const navigationRef = useRef(null);
+  const dispatch = useDispatch();
+  const data = useSelector((state) => state.product);
 
   const toggleMenu = () => {
-    setIsOpen(!isOpen);
+    dispatch(toggleHandler());
   };
+  console.log(data);
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -15,7 +19,7 @@ const Navigation = () => {
         navigationRef.current &&
         !navigationRef.current.contains(event.target)
       ) {
-        setIsOpen(false);
+        dispatch(resetToggleHandler(false));
       }
     };
 
@@ -24,7 +28,7 @@ const Navigation = () => {
     return () => {
       document.removeEventListener("mousedown", handleClickOutside);
     };
-  }, []);
+  }, [dispatch]);
 
   return (
     <nav
@@ -44,7 +48,7 @@ const Navigation = () => {
             viewBox="0 0 24 24"
             stroke="currentColor"
           >
-            {isOpen ? (
+            {data.toggleNavBar ? (
               <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -61,7 +65,9 @@ const Navigation = () => {
             )}
           </svg>
         </button>
-        <div className="logo text-2xl font-bold mr-4">Product Store </div>
+        <Link to="/">
+          <div className="logo text-2xl font-bold mr-4">Product Store </div>
+        </Link>
         <div className="hidden md:flex flex-grow justify-between items-center ml-10">
           <Link to="/" className="px-4 hover:text-sky-400">
             Home
@@ -80,7 +86,7 @@ const Navigation = () => {
           </Link>
         </div>
       </div>
-      {isOpen && (
+      {data.toggleNavBar && (
         <div
           className="md:hidden menu-items bg-black text-white py-4"
           onClick={toggleMenu}

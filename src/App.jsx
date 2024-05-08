@@ -9,24 +9,23 @@ import Services from "./Pages/Services";
 
 const router = createBrowserRouter([
   {
-    path: '/',
-    element: <RootLayout/>,
+    path: "/",
+    element: <RootLayout />,
     children: [
-      {path:'/',element: <Home/>},
-      {path:'/Products',element: <Products/>},
-      {path: '/About', element: <About/>},
-      {path: '/Contact', element: <Contact/>},
-      {path: '/Services', element: <Services/>},
-    ]
-  }
-])
+      { path: "/", element: <Home /> },
+      {
+        path: "/Products",
+        element: <Products />,
+      },
+      { path: "/About", element: <About /> },
+      { path: "/Contact", element: <Contact /> },
+      { path: "/Services", element: <Services /> },
+    ],
+  },
+]);
 
 function App() {
-  return (
-    <Fragment>
-      <RouterProvider router={router} />
-    </Fragment>
-  )
+  return <RouterProvider router={router} />;
 }
 
-export default App
+export default App;
